@@ -15,10 +15,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@concat('Customer_',formatDateTime(utcnow(),'yyyy-MM-dd'))",
-					"type": "Expression"
-				},
 				"folderPath": "Archive",
 				"container": "source"
 			},
