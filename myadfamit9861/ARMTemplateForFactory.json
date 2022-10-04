@@ -193,7 +193,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "CopyToFile",
+								"activity": "Get Metadata",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -252,9 +252,52 @@
 							{
 								"referenceName": "ArchiveText",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"FileName": {
+										"value": "@concat(activity('Get Metadata').output.itemName, formatDateTime(utcNow(),'yyyy-MM-dd'))",
+										"type": "Expression"
+									}
+								}
 							}
 						]
+					},
+					{
+						"name": "Get Metadata",
+						"type": "GetMetadata",
+						"dependsOn": [
+							{
+								"activity": "CopyToFile",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "CustomerText",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"itemName"
+							],
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
 					}
 				],
 				"policy": {
@@ -412,13 +455,18 @@
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"FileName": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": {
-							"value": "@concat('Customer_',formatDateTime(utcnow(),'yyyy-MM-dd'))",
+							"value": "@dataset().FileName",
 							"type": "Expression"
 						},
 						"folderPath": "Archive",
