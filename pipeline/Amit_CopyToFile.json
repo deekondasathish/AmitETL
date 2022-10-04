@@ -220,7 +220,13 @@
 				"outputs": [
 					{
 						"referenceName": "ArchiveText",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": {
+								"value": "@activity('Get Metadata').output",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			},
