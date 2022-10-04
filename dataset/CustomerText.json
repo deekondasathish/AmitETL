@@ -11,6 +11,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "Customer",
+				"folderPath": "Input",
 				"container": "source"
 			},
 			"columnDelimiter": ",",
