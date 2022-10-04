@@ -223,7 +223,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"FileName": {
-								"value": "@activity('Get Metadata').output",
+								"value": "@concat(activity('Get Metadata').output.itemName, formatDateTime(utcNow(),'yyyy-MM-dd'))",
 								"type": "Expression"
 							}
 						}
